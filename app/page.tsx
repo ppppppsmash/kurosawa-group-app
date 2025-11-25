@@ -1,65 +1,130 @@
-import Image from "next/image";
+"use client"
 
-export default function Home() {
+import { useState } from "react"
+import { Sidebar } from "@/components/sidebar"
+import { MeetingList } from "@/components/meeting-list"
+import { MeetingDetail } from "@/components/meeting-detail"
+import { CreateMeetingDialog } from "@/components/create-meeting-dialog"
+
+export type AgendaItem = {
+  id: string
+  title: string
+  duration: number
+  completed: boolean
+}
+
+export type Issue = {
+  id: string
+  title: string
+  status: "open" | "in-progress" | "resolved"
+  priority: "low" | "medium" | "high"
+  assignee?: string
+}
+
+export type Meeting = {
+  id: string
+  title: string
+  date: string
+  time: string
+  description: string
+  agenda: AgendaItem[]
+  issues: Issue[]
+  notes: string
+}
+
+const initialMeetings: Meeting[] = [
+  {
+    id: "1",
+    title: "月次定例ミーティング",
+    date: "2025-01-15",
+    time: "10:00",
+    description: "1月の月次定例ミーティングです。前月の振り返りと今月の目標設定を行います。",
+    agenda: [
+      { id: "a1", title: "前月の振り返り", duration: 15, completed: true },
+      { id: "a2", title: "KPI進捗報告", duration: 20, completed: true },
+      { id: "a3", title: "今月の目標設定", duration: 25, completed: false },
+    ],
+    issues: [
+      { id: "i1", title: "プロジェクトAの遅延", status: "in-progress", priority: "high", assignee: "田中" },
+      { id: "i2", title: "新規メンバーのオンボーディング", status: "open", priority: "medium", assignee: "佐藤" },
+    ],
+    notes: "次回までにプロジェクトAの進捗を確認すること。",
+  },
+  {
+    id: "2",
+    title: "プロジェクト進捗確認",
+    date: "2025-01-22",
+    time: "14:00",
+    description: "各プロジェクトの進捗状況を確認します。",
+    agenda: [
+      { id: "a4", title: "プロジェクトA進捗", duration: 20, completed: false },
+      { id: "a5", title: "プロジェクトB進捗", duration: 20, completed: false },
+      { id: "a6", title: "リスク確認", duration: 15, completed: false },
+    ],
+    issues: [{ id: "i3", title: "リソース不足の対応", status: "open", priority: "high" }],
+    notes: "",
+  },
+  {
+    id: "3",
+    title: "チームビルディング",
+    date: "2025-02-01",
+    time: "15:00",
+    description: "チームの結束を高めるためのセッションです。",
+    agenda: [
+      { id: "a7", title: "アイスブレイク", duration: 10, completed: false },
+      { id: "a8", title: "ワークショップ", duration: 45, completed: false },
+      { id: "a9", title: "振り返り", duration: 15, completed: false },
+    ],
+    issues: [],
+    notes: "",
+  },
+]
+
+export default function MeetingApp() {
+  const [meetings, setMeetings] = useState<Meeting[]>(initialMeetings)
+  const [selectedMeetingId, setSelectedMeetingId] = useState<string | null>(meetings[0]?.id || null)
+  const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false)
+
+  const selectedMeeting = meetings.find((m) => m.id === selectedMeetingId)
+
+  const handleCreateMeeting = (newMeeting: Omit<Meeting, "id" | "agenda" | "issues" | "notes">) => {
+    const meeting: Meeting = {
+      ...newMeeting,
+      id: Date.now().toString(),
+      agenda: [],
+      issues: [],
+      notes: "",
+    }
+    setMeetings([...meetings, meeting])
+    setSelectedMeetingId(meeting.id)
+    setIsCreateDialogOpen(false)
+  }
+
+  const handleUpdateMeeting = (updatedMeeting: Meeting) => {
+    setMeetings(meetings.map((m) => (m.id === updatedMeeting.id ? updatedMeeting : m)))
+  }
+
+  const handleDeleteMeeting = (id: string) => {
+    setMeetings(meetings.filter((m) => m.id !== id))
+    if (selectedMeetingId === id) {
+      setSelectedMeetingId(meetings[0]?.id || null)
+    }
+  }
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+    <div className="flex h-screen bg-background">
+      <Sidebar onCreateMeeting={() => setIsCreateDialogOpen(true)} />
+      <MeetingList meetings={meetings} selectedMeetingId={selectedMeetingId} onSelectMeeting={setSelectedMeetingId} />
+      <MeetingDetail
+        meeting={selectedMeeting}
+        onUpdateMeeting={handleUpdateMeeting}
+        onDeleteMeeting={handleDeleteMeeting}
+      />
+      <CreateMeetingDialog
+        open={isCreateDialogOpen}
+        onOpenChange={setIsCreateDialogOpen}
+        onCreateMeeting={handleCreateMeeting}
+      />
     </div>
-  );
+  )
 }
