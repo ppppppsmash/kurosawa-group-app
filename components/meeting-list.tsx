@@ -1,21 +1,19 @@
 "use client"
 
-import { Calendar, Clock, Search } from "lucide-react"
-import { Input } from "@/components/ui/input"
+import { Calendar, Clock, Plus } from "lucide-react"
+import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import type { Meeting } from "@/app/page"
-import { useState } from "react"
 
 interface MeetingListProps {
   meetings: Meeting[]
   selectedMeetingId: string | null
   onSelectMeeting: (id: string) => void
+  onCreateMeeting?: () => void
 }
 
-export function MeetingList({ meetings, selectedMeetingId, onSelectMeeting }: MeetingListProps) {
-  const [searchQuery, setSearchQuery] = useState("")
-
-  const filteredMeetings = meetings.filter((meeting) => meeting.title.toLowerCase().includes(searchQuery.toLowerCase()))
+export function MeetingList({ meetings, selectedMeetingId, onSelectMeeting, onCreateMeeting }: MeetingListProps) {
+  const filteredMeetings = meetings
 
   const formatDate = (dateStr: string) => {
     const date = new Date(dateStr)
@@ -25,7 +23,19 @@ export function MeetingList({ meetings, selectedMeetingId, onSelectMeeting }: Me
   return (
     <div className="w-80 bg-card border-r border-border flex flex-col">
       <div className="p-4 border-b border-border">
-        <h2 className="text-lg font-semibold text-card-foreground mb-3">ミーティング</h2>
+        <div className="flex items-center justify-between mb-3">
+          <h2 className="text-lg font-semibold text-card-foreground">グループ2部MTG</h2>
+          {onCreateMeeting && (
+            <Button
+              size="icon"
+              className="h-8 w-8"
+              onClick={onCreateMeeting}
+              title="新規ミーティング"
+            >
+              <Plus className="h-4 w-4" />
+            </Button>
+          )}
+        </div>
         {/* <div className="relative">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input

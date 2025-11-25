@@ -109,10 +109,10 @@ export function MeetingDetail({ meeting, onUpdateMeeting, onDeleteMeeting }: Mee
           <TabsContent value="notes" className="mt-0 h-full">
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <h3 className="font-semibold text-foreground">ミーティングメモ</h3>
+                <h3 className="font-semibold text-foreground">メモ</h3>
               </div>
               <Textarea
-                placeholder="ミーティングのメモを入力..."
+                placeholder="メモを入力..."
                 className="min-h-[300px] bg-input border-border text-foreground placeholder:text-muted-foreground resize-none"
                 value={meeting.notes}
                 onChange={(e) => handleNotesChange(e.target.value)}

@@ -58,7 +58,7 @@ export function AgendaSection({ meeting, onUpdateMeeting }: AgendaSectionProps) 
       <div className="flex items-center justify-between">
         <h3 className="font-semibold text-foreground">アジェンダ</h3>
         <div className="text-sm text-muted-foreground">
-          合計: {totalDuration}分 / 完了: {completedDuration}分
+          {/* 合計: {totalDuration}分 / 完了: {completedDuration}分 */}
         </div>
       </div>
 
@@ -83,10 +83,10 @@ export function AgendaSection({ meeting, onUpdateMeeting }: AgendaSectionProps) 
             </button>
             <span className="text-muted-foreground text-sm font-mono w-6">{index + 1}.</span>
             <span className={cn("flex-1 text-foreground", item.completed && "line-through")}>{item.title}</span>
-            <span className="flex items-center gap-1 text-sm text-muted-foreground">
+            {/* <span className="flex items-center gap-1 text-sm text-muted-foreground">
               <Clock className="h-3.5 w-3.5" />
               {item.duration}分
-            </span>
+            </span> */}
             <Button
               variant="ghost"
               size="icon"
@@ -108,7 +108,7 @@ export function AgendaSection({ meeting, onUpdateMeeting }: AgendaSectionProps) 
           onChange={(e) => setNewAgendaTitle(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && handleAddAgenda()}
         />
-        <div className="flex items-center gap-1">
+        {/* <div className="flex items-center gap-1">
           <Input
             type="number"
             className="w-16 h-8 text-center bg-input border-border text-foreground"
@@ -117,7 +117,7 @@ export function AgendaSection({ meeting, onUpdateMeeting }: AgendaSectionProps) 
             min={1}
           />
           <span className="text-sm text-muted-foreground">分</span>
-        </div>
+        </div> */}
         <Button size="sm" onClick={handleAddAgenda} disabled={!newAgendaTitle.trim()}>
           追加
         </Button>

@@ -73,9 +73,9 @@ export function IssuesSection({ meeting, onUpdateMeeting }: IssuesSectionProps) 
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <h3 className="font-semibold text-foreground">課題</h3>
-        <div className="text-sm text-muted-foreground">
+        {/* <div className="text-sm text-muted-foreground">
           未解決: {openIssues} / 解決済: {resolvedIssues}
-        </div>
+        </div> */}
       </div>
 
       <div className="space-y-2">

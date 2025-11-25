@@ -9,9 +9,8 @@ const _geist = Geist({ subsets: ["latin"] })
 const _geistMono = Geist_Mono({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "ミーティング管理",
-  description: "グループミーティングの管理、アジェンダ作成、課題トラッキングアプリ",
-  generator: "v0.app",
+  title: "グループMTG",
+  description: "グループMTG",
   icons: {
     icon: [
       {

@@ -1,7 +1,6 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Sidebar } from "@/components/sidebar"
 import { MeetingList } from "@/components/meeting-list"
 import { MeetingDetail } from "@/components/meeting-detail"
 import { CreateMeetingDialog } from "@/components/create-meeting-dialog"
@@ -183,8 +182,13 @@ export default function MeetingApp() {
 
   return (
     <div className="flex h-screen bg-background">
-      <Sidebar onCreateMeeting={() => setIsCreateDialogOpen(true)} />
-      <MeetingList meetings={meetings} selectedMeetingId={selectedMeetingId} onSelectMeeting={setSelectedMeetingId} />
+      {/* <Sidebar onCreateMeeting={() => setIsCreateDialogOpen(true)} /> */}
+      <MeetingList 
+        meetings={meetings} 
+        selectedMeetingId={selectedMeetingId} 
+        onSelectMeeting={setSelectedMeetingId}
+        onCreateMeeting={() => setIsCreateDialogOpen(true)}
+      />
       <MeetingDetail
         meeting={selectedMeeting}
         onUpdateMeeting={handleUpdateMeeting}

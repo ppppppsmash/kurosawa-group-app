@@ -45,9 +45,9 @@ export function CreateMeetingDialog({ open, onOpenChange, onCreateMeeting, isLoa
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="bg-card border-border text-card-foreground">
         <DialogHeader>
-          <DialogTitle>新規ミーティング作成</DialogTitle>
+          <DialogTitle>新規登録</DialogTitle>
           <DialogDescription className="text-muted-foreground">
-            ミーティングの詳細を入力してください。
+            {/* ミーティングの詳細を入力してください。 */}
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -57,7 +57,7 @@ export function CreateMeetingDialog({ open, onOpenChange, onCreateMeeting, isLoa
             </Label>
             <Input
               id="title"
-              placeholder="ミーティングタイトル"
+              placeholder="タイトルを入力..."
               className="bg-input border-border text-foreground placeholder:text-muted-foreground"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
@@ -98,7 +98,7 @@ export function CreateMeetingDialog({ open, onOpenChange, onCreateMeeting, isLoa
             </Label>
             <Textarea
               id="description"
-              placeholder="ミーティングの説明（任意）"
+              placeholder="説明（任意）"
               className="bg-input border-border text-foreground placeholder:text-muted-foreground resize-none"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
