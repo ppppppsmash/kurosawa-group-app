@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { cn } from "@/lib/utils"
+import { nanoid } from "nanoid"
 import type { Meeting, Issue } from "@/app/page"
 
 interface IssuesSectionProps {
@@ -34,7 +35,7 @@ export function IssuesSection({ meeting, onUpdateMeeting }: IssuesSectionProps) 
     if (!newIssueTitle.trim()) return
 
     const newIssue: Issue = {
-      id: Date.now().toString(),
+      id: nanoid(),
       title: newIssueTitle,
       status: "open",
       priority: newIssuePriority,

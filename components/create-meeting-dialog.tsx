@@ -20,20 +20,21 @@ import type { Meeting } from "@/app/page"
 interface CreateMeetingDialogProps {
   open: boolean
   onOpenChange: (open: boolean) => void
-  onCreateMeeting: (meeting: Omit<Meeting, "id" | "agenda" | "issues" | "notes">) => void
+  onCreateMeeting: (meeting: Omit<Meeting, "id" | "agenda" | "issues" | "notes">) => Promise<void>
+  isLoading?: boolean
 }
 
-export function CreateMeetingDialog({ open, onOpenChange, onCreateMeeting }: CreateMeetingDialogProps) {
+export function CreateMeetingDialog({ open, onOpenChange, onCreateMeeting, isLoading = false }: CreateMeetingDialogProps) {
   const [title, setTitle] = useState("")
   const [date, setDate] = useState("")
   const [time, setTime] = useState("")
   const [description, setDescription] = useState("")
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!title || !date || !time) return
+    if (!title || !date || !time || isLoading) return
 
-    onCreateMeeting({ title, date, time, description })
+    await onCreateMeeting({ title, date, time, description })
     setTitle("")
     setDate("")
     setTime("")
@@ -105,10 +106,12 @@ export function CreateMeetingDialog({ open, onOpenChange, onCreateMeeting }: Cre
             />
           </div>
           <DialogFooter>
-            <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
+            <Button type="button" variant="outline" onClick={() => onOpenChange(false)} disabled={isLoading}>
               キャンセル
             </Button>
-            <Button type="submit">作成</Button>
+            <Button type="submit" disabled={isLoading}>
+              {isLoading ? "作成中..." : "作成"}
+            </Button>
           </DialogFooter>
         </form>
       </DialogContent>

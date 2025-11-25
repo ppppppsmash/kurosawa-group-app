@@ -26,7 +26,7 @@ export function MeetingList({ meetings, selectedMeetingId, onSelectMeeting }: Me
     <div className="w-80 bg-card border-r border-border flex flex-col">
       <div className="p-4 border-b border-border">
         <h2 className="text-lg font-semibold text-card-foreground mb-3">ミーティング</h2>
-        <div className="relative">
+        {/* <div className="relative">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
             placeholder="検索..."
@@ -34,7 +34,7 @@ export function MeetingList({ meetings, selectedMeetingId, onSelectMeeting }: Me
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
-        </div>
+        </div> */}
       </div>
 
       <div className="flex-1 overflow-y-auto">

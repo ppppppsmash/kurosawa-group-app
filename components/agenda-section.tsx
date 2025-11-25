@@ -5,6 +5,7 @@ import { Check, Clock, GripVertical, Plus, Trash2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { cn } from "@/lib/utils"
+import { nanoid } from "nanoid"
 import type { Meeting, AgendaItem } from "@/app/page"
 
 interface AgendaSectionProps {
@@ -20,7 +21,7 @@ export function AgendaSection({ meeting, onUpdateMeeting }: AgendaSectionProps) 
     if (!newAgendaTitle.trim()) return
 
     const newAgenda: AgendaItem = {
-      id: Date.now().toString(),
+      id: nanoid(),
       title: newAgendaTitle,
       duration: newAgendaDuration,
       completed: false,
